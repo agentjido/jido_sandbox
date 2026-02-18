@@ -1,13 +1,13 @@
-defmodule Jido.Sandbox.MixProject do
+defmodule Jido.Workspace.MixProject do
   use Mix.Project
 
   @version "0.1.0"
-  @source_url "https://github.com/agentjido/jido_sandbox"
-  @description "In-memory sandbox (VFS + Lua) for LLM tool calls"
+  @source_url "https://github.com/agentjido/jido_workspace"
+  @description "Unified artifact workspace for agent sessions (Jido.Shell + Jido.VFS)"
 
   def project do
     [
-      app: :jido_sandbox,
+      app: :jido_workspace,
       version: @version,
       elixir: "~> 1.18",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -16,7 +16,7 @@ defmodule Jido.Sandbox.MixProject do
       aliases: aliases(),
 
       # Documentation
-      name: "Jido.Sandbox",
+      name: "Jido.Workspace",
       description: @description,
       source_url: @source_url,
       homepage_url: @source_url,
@@ -57,11 +57,16 @@ defmodule Jido.Sandbox.MixProject do
     [
       # Runtime
       {:zoi, "~> 0.16"},
+      {:splode, "~> 0.3", override: true},
       {:jido_shell, github: "agentjido/jido_shell", branch: "main"},
       {:jido_vfs, github: "agentjido/jido_vfs", branch: "main", override: true},
-      {:lua, "~> 0.4.0"},
+      {:sprites, git: "https://github.com/mikehostetler/sprites-ex.git", override: true},
 
       # Dev/Test
+      {:jido_harness, path: "../jido_harness", override: true, only: :test},
+      {:jido_codex, path: "../jido_codex", override: true, only: :test},
+      {:jido_amp, path: "../jido_amp", override: true, only: :test},
+      {:jido_gemini, path: "../jido_gemini", override: true, only: :test},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.31", only: :dev, runtime: false},
@@ -103,9 +108,9 @@ defmodule Jido.Sandbox.MixProject do
       maintainers: ["Agent Jido Team"],
       licenses: ["Apache-2.0"],
       links: %{
-        "Changelog" => "https://hexdocs.pm/jido_sandbox/changelog.html",
+        "Changelog" => "https://hexdocs.pm/jido_workspace/changelog.html",
         "Discord" => "https://agentjido.xyz/discord",
-        "Documentation" => "https://hexdocs.pm/jido_sandbox",
+        "Documentation" => "https://hexdocs.pm/jido_workspace",
         "GitHub" => @source_url,
         "Website" => "https://agentjido.xyz"
       }
@@ -114,7 +119,7 @@ defmodule Jido.Sandbox.MixProject do
 
   defp docs do
     [
-      main: "Jido.Sandbox",
+      main: "Jido.Workspace",
       source_ref: "v#{@version}",
       extras: [
         "README.md",

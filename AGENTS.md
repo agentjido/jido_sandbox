@@ -1,16 +1,17 @@
-# AGENTS.md - Jido.Sandbox
+# AGENTS.md - Jido.Workspace
 
 ## Project Overview
 
-Jido Sandbox provides a lightweight, pure-BEAM sandbox for LLM tool calls. It implements an in-memory virtual filesystem (VFS) and sandboxed Lua execution.
+Jido.Workspace provides a unified artifact workspace for agent sessions.
+It uses `jido_shell` for workspace/session orchestration and `jido_vfs` for
+filesystem adapter support.
 
-## Key Constraints (Features, not bugs)
+## Core Responsibilities
 
-- **No real filesystem access** - All files are virtual
-- **No networking** - No HTTP, sockets, or external connections
-- **No shell/process execution** - No System.cmd, ports, or NIFs
-- **Lua-only scripting** - Sandboxed Lua with VFS bindings only
-- **All paths are virtual and absolute** - Must start with `/`
+- Mount and manage workspace filesystems through `Jido.Shell.VFS`
+- Provide a simple artifact API (`write`, `read`, `list`, `mkdir`, `delete`)
+- Support snapshot/restore of workspace artifacts
+- Optionally run shell commands in a workspace-bound session
 
 ## Common Commands
 
@@ -20,20 +21,21 @@ Jido Sandbox provides a lightweight, pure-BEAM sandbox for LLM tool calls. It im
 
 ## Public API
 
-- `Jido.Sandbox.new/1` - Create a new sandbox
-- `Jido.Sandbox.write/3` - Write file to VFS
-- `Jido.Sandbox.read/2` - Read file from VFS
-- `Jido.Sandbox.list/2` - List directory contents
-- `Jido.Sandbox.delete/2` - Delete file from VFS
-- `Jido.Sandbox.mkdir/2` - Create directory
-- `Jido.Sandbox.snapshot/1` - Save VFS state
-- `Jido.Sandbox.restore/2` - Restore VFS state
-- `Jido.Sandbox.eval_lua/2` - Execute Lua code
+- `Jido.Workspace.new/1` - Create and mount a workspace
+- `Jido.Workspace.write/3` - Write artifact content
+- `Jido.Workspace.read/2` - Read artifact content
+- `Jido.Workspace.list/2` - List entries
+- `Jido.Workspace.delete/2` - Delete artifact path
+- `Jido.Workspace.mkdir/2` - Create directory
+- `Jido.Workspace.snapshot/1` - Capture workspace snapshot
+- `Jido.Workspace.restore/2` - Restore snapshot
+- `Jido.Workspace.start_session/2` - Start shell session
+- `Jido.Workspace.run/3` - Run shell command
+- `Jido.Workspace.stop_session/1` - Stop shell session
+- `Jido.Workspace.close/1` - Stop session and unmount workspace
 
 ## Architecture
 
-- `Jido.Sandbox` - Public API module
-- `Jido.Sandbox.Sandbox` - Core sandbox struct and operations
-- `Jido.Sandbox.VFS` - VFS behavior
-- `Jido.Sandbox.VFS.InMemory` - In-memory VFS implementation
-- `Jido.Sandbox.Lua.Runtime` - Sandboxed Lua execution
+- `Jido.Workspace` - Public API module
+- `Jido.Workspace.Workspace` - Core workspace struct and operations
+- `Jido.Workspace.Schemas` - Zoi validation schemas

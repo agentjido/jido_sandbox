@@ -1,1 +1,8 @@
-ExUnit.start()
+ExUnit.start(
+  exclude: [
+    :integration,
+    :sprite,
+    :requires_cli,
+    :flaky
+  ]
+)

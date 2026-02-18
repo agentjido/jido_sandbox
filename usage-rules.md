@@ -1,44 +1,30 @@
-# Jido.Sandbox Usage Rules
+# Jido.Workspace Usage Rules
 
 ## For LLM Tool Builders
 
 ### Allowed Operations
 
-- Read/write files to the virtual filesystem
+- Read/write files in workspace artifacts
 - List directory contents
-- Create directories
-- Execute sandboxed Lua scripts
-- Create/restore snapshots
-
-### Forbidden Operations
-
-- Real filesystem access (blocked by design)
-- Network requests (not available)
-- Shell command execution (not available)
-- Loading external Lua modules (blocked)
-- Path traversal attacks (paths validated)
+- Create/delete directories and files
+- Capture and restore workspace snapshots
+- Run shell commands in a workspace session
 
 ### Path Rules
 
-- All paths MUST be absolute (start with `/`)
+- Paths MUST be absolute (start with `/`)
 - Path traversal (`..`) is blocked
 - Paths are case-sensitive
-- Multiple slashes are collapsed
+- Multiple slashes are normalized
 
-### Lua Sandbox Rules
+### Session Rules
 
-The Lua environment has these globals removed:
-- `os` - No operating system access
-- `io` - No real I/O
-- `package` - No module loading
-- `require` - No external modules
-- `debug` - No debug access
-- `loadfile` - No file loading
-- `dofile` - No file execution
+- `run/3` auto-starts a workspace session if needed
+- Sessions are tied to a single workspace id
+- Use `close/1` to stop session and unmount filesystems
 
-Available in Lua:
-- `vfs.read(path)` - Read file contents
-- `vfs.write(path, content)` - Write file
-- `vfs.list(path)` - List directory
-- `vfs.mkdir(path)` - Create directory
-- `vfs.delete(path)` - Delete file
+### Backend Rules
+
+- Root mount defaults to in-memory adapter
+- Custom `Jido.VFS` adapters are supported via `new/1` options
+- Workspace file operations route through `Jido.Shell.VFS`

@@ -1,18 +1,18 @@
-# Jido.Sandbox
+# Jido.Workspace
 
-[![Hex.pm](https://img.shields.io/hexpm/v/jido_sandbox.svg)](https://hex.pm/packages/jido_sandbox)
-[![Documentation](https://img.shields.io/badge/docs-hexpm-blue.svg)](https://hexdocs.pm/jido_sandbox)
+[![Hex.pm](https://img.shields.io/hexpm/v/jido_workspace.svg)](https://hex.pm/packages/jido_workspace)
+[![Documentation](https://img.shields.io/badge/docs-hexpm-blue.svg)](https://hexdocs.pm/jido_workspace)
 
-In-memory sandbox (VFS + Lua) for LLM tool calls.
+Unified artifact workspace for agent sessions, built on `jido_shell` + `jido_vfs`.
 
 ## Installation
 
-Add `jido_sandbox` to your list of dependencies in `mix.exs`:
+Add `jido_workspace` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
   [
-    {:jido_sandbox, "~> 0.1.0"}
+    {:jido_workspace, "~> 0.1.0"}
   ]
 end
 ```
@@ -20,47 +20,36 @@ end
 ## Quick Start
 
 ```elixir
-# Create a new sandbox
-sandbox = Jido.Sandbox.new()
+# Create a new workspace (in-memory VFS mounted at /)
+workspace = Jido.Workspace.new()
 
-# Write a file
-{:ok, sandbox} = Jido.Sandbox.write(sandbox, "/hello.txt", "Hello, World!")
+# Work with artifacts
+{:ok, workspace} = Jido.Workspace.write(workspace, "/hello.txt", "Hello, World!")
+{:ok, "Hello, World!"} = Jido.Workspace.read(workspace, "/hello.txt")
+{:ok, ["hello.txt"]} = Jido.Workspace.list(workspace, "/")
 
-# Read it back
-{:ok, content} = Jido.Sandbox.read(sandbox, "/hello.txt")
-# => "Hello, World!"
+# Snapshot and restore
+{:ok, snapshot_id, workspace} = Jido.Workspace.snapshot(workspace)
+{:ok, workspace} = Jido.Workspace.delete(workspace, "/hello.txt")
+{:ok, workspace} = Jido.Workspace.restore(workspace, snapshot_id)
 
-# List directory
-{:ok, files} = Jido.Sandbox.list(sandbox, "/")
-# => ["hello.txt"]
+# Run a shell command in the workspace
+{:ok, output, workspace} = Jido.Workspace.run(workspace, "pwd")
 
-# Create a snapshot
-{:ok, snapshot_id, sandbox} = Jido.Sandbox.snapshot(sandbox)
-
-# Make changes and restore
-{:ok, sandbox} = Jido.Sandbox.delete(sandbox, "/hello.txt")
-{:ok, sandbox} = Jido.Sandbox.restore(sandbox, snapshot_id)
-# File is back!
-
-# Execute Lua (with VFS access)
-{:ok, result, sandbox} = Jido.Sandbox.eval_lua(sandbox, """
-  local content = vfs.read("/hello.txt")
-  return string.upper(content)
-""")
-# => "HELLO, WORLD!"
+# Cleanup
+{:ok, workspace} = Jido.Workspace.close(workspace)
 ```
 
-## Key Features
+## Why Jido.Workspace
 
-- **Pure in-memory VFS** - No real filesystem access
-- **Sandboxed Lua execution** - Safe scripting with VFS bindings
-- **Snapshot/restore** - Save and restore VFS state
-- **Path validation** - Blocks traversal attacks
-- **Zero external dependencies** at runtime (except Lua NIF)
+- Unifies artifact lifecycle for an agent session
+- Uses `Jido.Shell.VFS` for mount/routing
+- Uses `Jido.VFS` adapter ecosystem for storage backends
+- Provides a single state struct for files + session context
 
 ## Documentation
 
-See [HexDocs](https://hexdocs.pm/jido_sandbox) for full documentation.
+See [HexDocs](https://hexdocs.pm/jido_workspace) for full documentation.
 
 ## License
 

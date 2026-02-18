@@ -7,12 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Renamed package identity to `Jido.Workspace`
+- Replaced internal sandbox VFS/Lua runtime with `jido_shell` + `jido_vfs` integration
+- Added workspace session helpers for shell command execution in agent workflows
+
 ## [0.1.0] - 2026-01-03
 
 ### Added
 - Initial project scaffolding
-- In-memory VFS implementation
-- Sandbox struct with VFS operations
-- Snapshot/restore functionality
-- Zoi schema validation
-- Sandboxed Lua runtime with VFS bindings

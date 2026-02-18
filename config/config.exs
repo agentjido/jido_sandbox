@@ -1,8 +1,8 @@
 import Config
 
-# Default sandbox configuration
-config :jido_sandbox,
-  default_vfs: :in_memory
+# Default workspace configuration
+config :jido_workspace,
+  default_adapter: Jido.VFS.Adapter.InMemory
 
 # Import environment specific config
 import_config "#{config_env()}.exs"
