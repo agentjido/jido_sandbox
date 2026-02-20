@@ -56,17 +56,12 @@ defmodule Jido.Workspace.MixProject do
   defp deps do
     [
       # Runtime
-      {:zoi, "~> 0.16"},
-      {:splode, "~> 0.3", override: true},
-      {:jido_shell, path: "../jido_shell", override: true},
+      {:zoi, "~> 0.17"},
+      {:splode, ">= 0.2.9 and < 0.4.0", override: true},
+      {:jido_shell, github: "agentjido/jido_shell", branch: "main", override: true},
       {:jido_vfs, github: "agentjido/jido_vfs", branch: "main", override: true},
-      {:sprites, git: "https://github.com/mikehostetler/sprites-ex.git", override: true},
 
       # Dev/Test
-      {:jido_harness, path: "../jido_harness", override: true, only: :test},
-      {:jido_codex, path: "../jido_codex", override: true, only: :test},
-      {:jido_amp, path: "../jido_amp", override: true, only: :test},
-      {:jido_gemini, path: "../jido_gemini", override: true, only: :test},
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
       {:ex_doc, "~> 0.31", only: :dev, runtime: false},
@@ -80,7 +75,6 @@ defmodule Jido.Workspace.MixProject do
   defp aliases do
     [
       setup: ["deps.get", "git_hooks.install"],
-      test: "test --exclude flaky",
       q: ["quality"],
       quality: [
         "format --check-formatted",

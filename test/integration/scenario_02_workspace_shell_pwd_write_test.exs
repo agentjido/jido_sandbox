@@ -9,6 +9,7 @@ defmodule Jido.Workspace.Integration.Scenario02WorkspaceShellPwdWriteTest do
   alias Jido.Workspace.TestSupport.ScenarioHelpers
 
   @moduletag :integration
+  @moduletag :local_integration
   @moduletag :tmp_dir
 
   @summary_path "/artifacts/run_summary.json"

@@ -5,6 +5,20 @@
 
 Unified artifact workspace for agent sessions, built on `jido_shell` + `jido_vfs`.
 
+## Package Boundary
+
+`jido_workspace` is a strict workspace library. It owns:
+
+- Workspace state and artifact lifecycle
+- Optional shell-session convenience bound to workspace id
+- Snapshot/restore of workspace artifacts
+
+It does **not** own:
+
+- Provider orchestration
+- Harness runtime policy/bootstrap
+- Sprite workflow orchestration
+
 ## Installation
 
 Add `jido_workspace` to your list of dependencies in `mix.exs`:
@@ -46,6 +60,13 @@ workspace = Jido.Workspace.new()
 - Uses `Jido.Shell.VFS` for mount/routing
 - Uses `Jido.VFS` adapter ecosystem for storage backends
 - Provides a single state struct for files + session context
+
+## Workspace vs Harness Exec
+
+- Use `Jido.Workspace` when you need app-level stateful workspace operations:
+: artifact files, snapshots, and optional shell command execution tied to that workspace.
+- Use `Jido.Harness.Exec.Workspace` when you need provider-runtime orchestration primitives:
+: provisioning/validation/bootstrap around coding-agent execution.
 
 ## Documentation
 

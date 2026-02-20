@@ -13,6 +13,12 @@ filesystem adapter support.
 - Support snapshot/restore of workspace artifacts
 - Optionally run shell commands in a workspace-bound session
 
+## Out of Scope
+
+- Provider orchestration and adapter policy
+- Harness runtime bootstrap/validation logic
+- Sprite workflow orchestration scenarios
+
 ## Common Commands
 
 - `mix test` - Run tests

@@ -3,6 +3,8 @@ defmodule Jido.WorkspaceTest do
 
   alias Jido.Workspace
 
+  @moduletag :contract
+
   setup do
     workspace = Workspace.new()
     Process.put(:workspace_under_test, workspace)

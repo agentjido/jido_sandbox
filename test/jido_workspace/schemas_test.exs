@@ -3,6 +3,8 @@ defmodule Jido.Workspace.SchemasTest do
 
   alias Jido.Workspace.Schemas
 
+  @moduletag :unit
+
   describe "validate_path/1" do
     test "accepts absolute paths" do
       assert {:ok, "/foo/bar"} = Schemas.validate_path("/foo/bar")
