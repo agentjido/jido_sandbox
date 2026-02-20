@@ -33,7 +33,7 @@ defmodule Jido.Workspace.Integration.Scenario11GeminiPlumbingSmokeTest do
       {:ok, workspace} = Workspace.mkdir(workspace, "/artifacts")
       ScenarioHelpers.put_workspace(workspace)
 
-      direct_result = collect_result(fn -> JidoGemini.run(@prompt, cwd: output_root, timeout_ms: 20_000) end)
+      direct_result = collect_result(fn -> Jido.Gemini.run(@prompt, cwd: output_root, timeout_ms: 20_000) end)
       harness_result = collect_result(fn -> Harness.run(:gemini, @prompt, cwd: output_root, timeout_ms: 20_000) end)
 
       {:ok, workspace} =
