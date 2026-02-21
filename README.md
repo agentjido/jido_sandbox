@@ -75,3 +75,9 @@ See [HexDocs](https://hexdocs.pm/jido_workspace) for full documentation.
 ## License
 
 Apache-2.0
+
+## Testing Paths
+
+- Core workspace suite: `mix test`
+- Full quality gate: `mix quality`
+- Keep scenario-heavy testing in `jido_workspace_scenarios`
