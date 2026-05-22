@@ -1,7 +1,12 @@
 # Jido.Workspace
 
 [![Hex.pm](https://img.shields.io/hexpm/v/jido_workspace.svg)](https://hex.pm/packages/jido_workspace)
-[![Documentation](https://img.shields.io/badge/docs-hexpm-blue.svg)](https://hexdocs.pm/jido_workspace)
+[![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/jido_workspace/)
+[![CI](https://github.com/agentjido/jido_workspace/actions/workflows/ci.yml/badge.svg)](https://github.com/agentjido/jido_workspace/actions/workflows/ci.yml)
+[![License](https://img.shields.io/hexpm/l/jido_workspace.svg)](https://github.com/agentjido/jido_workspace/blob/main/LICENSE)
+[![Website](https://img.shields.io/badge/website-jido.run-0f172a.svg)](https://jido.run)
+[![Ecosystem](https://img.shields.io/badge/ecosystem-jido.run-0ea5e9.svg)](https://jido.run/ecosystem)
+[![Discord](https://img.shields.io/badge/discord-join-5865F2.svg?logo=discord&logoColor=white)](https://jido.run/discord)
 
 Unified artifact workspace for agent sessions, built on `jido_shell` + `jido_vfs`.
 
